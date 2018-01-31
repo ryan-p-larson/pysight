@@ -6,6 +6,6 @@ Landmarks - Haar Caascades, Facial Landmarks, and computer vision.
 Gaze - Functions for getting haze estimation.
 """
 
-from pysight.face import Face
+from pysight.face_tools import FaceTools
 from pysight import utils
 from pysight.utils.camera import Camera
