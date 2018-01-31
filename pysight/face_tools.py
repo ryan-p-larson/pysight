@@ -53,7 +53,7 @@ TPL_MIN, TPL_MAX = np.min(TEMPLATE, axis=0), np.max(TEMPLATE, axis=0)
 MINMAX_TEMPLATE = (TEMPLATE - TPL_MIN) / (TPL_MAX - TPL_MIN)
 
 
-class FaceTools(object):
+class Face(object):
     """Object containing OpenCV cascades and dlib facial landmark clfs."""
 
     #: Landmark indices.
@@ -139,6 +139,32 @@ class FaceTools(object):
                     minSize=(30, 30) 
                     #maxSize
                 )
+        except Exception as e:
+            print ("Warning: {}".format(e))
+            return []
+
+
+    def find_landmarks(self, img, face_rect=[]):
+        """
+        Function to identify 68 facial landmarks from a given face img.
+        Args:
+            img (np.ndarray): Input image
+            face_rect (list): List of x1, x2, y1, y2 points bounding the face.
+        Returns:
+            landmarks (list[points]): List of 68 facial landmarks if successful, else []
+        """
+        assert img is not None
+
+        # Convert face_rect list to Dlib rectangle for dlib.shape_predictor().
+        dlib_rect = []
+
+        try:
+            landmarks_dlib = self.dlib_clf(img, face_rect)
+
+            # Convert to NP formatted points afterward
+            # TO-DO
+
+            return landmarks_dlib
         except Exception as e:
             print ("Warning: {}".format(e))
             return []
