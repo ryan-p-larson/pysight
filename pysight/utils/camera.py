@@ -13,13 +13,17 @@ class Camera(object):
 		self.__frames = []
 
 	def capture(self):
-		"""Function to start, capture, and shutdown our camera."""
+		"""Function to start, capture, and shutdown our camera.
+		Returns:
+			frame (np.ndarray/None): returns image encoded as numpy array if 
+			valid, else None
+		"""
 		
 		webcam = VideoCapture(self.__src) 	# Fire up our webcam
 		grabbed, frame = webcam.read()      # Grab an image as uint8 array.
 		webcam.release()                    # Stop our webcam so we can use it again.
 		
-		return frame
+		return frame if grabbed else None
 
 	def process(self, img, downsize=5):
 		"""Function to process an raw RGB image into an B&W, equalized img.
