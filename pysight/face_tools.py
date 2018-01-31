@@ -103,7 +103,7 @@ class Face(object):
             img (numpy.ndarray): Image to process.
             face_rect (???): Bounding box of face
         Returns:
-            Eyes' bounding boxe within 'img'.
+            Eyes' bounding boxes within 'img'.
         """
         assert img is not None
         try:
@@ -122,23 +122,21 @@ class Face(object):
 
     def find_pupils(self, img, eyes_rect=[]):
         """
-        Function to find the bounding box of eyes in a webcam image.
+        Function to find the pupil(s) in an image.
         Args:
             img (numpy.ndarray): Image to process.
-            face_rect (???): Bounding box of face
+            eyes_rect (???): Bounding box of eyes.
         Returns:
-            Eyes' bounding boxe within 'img'.
+            pupil: Hough Circle information for pupil in eye.
         """
         assert img is not None
         try:
-            return self.eyes_clf.detectMultiScale(
-                    image=img, 
-                    scaleFactor=1.03, 
-                    minNeighbors=5, 
-                    flags=0, 
-                    minSize=(30, 30) 
-                    #maxSize
-                )
+            # Grab pupil circle information via Hough Circles method.
+            # TO-DO: Better param information
+            circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 20,
+                            param1=50, param2=30, minRadius=0, maxRadius=80)
+
+            return circles
         except Exception as e:
             print ("Warning: {}".format(e))
             return []
