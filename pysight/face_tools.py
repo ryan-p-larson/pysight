@@ -9,7 +9,6 @@ gradients), and uses Dlibs AAM.
 import numpy as np
 import dlib
 import cv2
-#from cv2 import CascadeClassifier, CASCADE_SCALE_IMAGE
 
 
 # Active Shape Model template
@@ -53,7 +52,7 @@ TPL_MIN, TPL_MAX = np.min(TEMPLATE, axis=0), np.max(TEMPLATE, axis=0)
 MINMAX_TEMPLATE = (TEMPLATE - TPL_MIN) / (TPL_MAX - TPL_MIN)
 
 
-class Face(object):
+class FaceTools(object):
     """Object containing OpenCV cascades and dlib facial landmark clfs."""
 
     #: Landmark indices.
@@ -65,7 +64,7 @@ class Face(object):
         Instantiates the object with all the clfs.
         Args:
             face_f (str): Path to (Haar_*.xml) face cascade file from OpenCV.
-            eye_f (str): Path to (Haar_*.xml) eye cascade file from OpenCV.
+            eyes_f (str): Path to (Haar_*.xml) eye cascade file from OpenCV.
             dlib_f (str): Path to Dlib's 68 facial landmarks file (landmarks_*.dat).
         """
         self.face_clf = cv2.CascadeClassifier(face_f)
@@ -103,7 +102,7 @@ class Face(object):
             img (numpy.ndarray): Image to process.
             face_rect (???): Bounding box of face
         Returns:
-            Eyes' bounding boxes within 'img'.
+            Eyes' bounding boxes within 'img'. () if empty
         """
         assert img is not None
         try:
@@ -142,7 +141,7 @@ class Face(object):
             return []
 
 
-    def find_landmarks(self, img, face_rect=[]):
+    def find_landmarks(self, img, face_rect):
         """
         Function to identify 68 facial landmarks from a given face img.
         Args:
@@ -152,12 +151,19 @@ class Face(object):
             landmarks (list[points]): List of 68 facial landmarks if successful, else []
         """
         assert img is not None
+        # If we don't have a bounding box then we're SOL
+        if len(face_rect) < 1: return []
 
         # Convert face_rect list to Dlib rectangle for dlib.shape_predictor().
-        dlib_rect = []
+        dlib_rect = dlib.rectangle(
+                int(face_rect[0][0]),
+                int(face_rect[0][1]),
+                int(face_rect[0][2]),
+                int(face_rect[0][3])
+            )
 
         try:
-            landmarks_dlib = self.dlib_clf(img, face_rect)
+            landmarks_dlib = self.dlib_clf(img, dlib_rect)
 
             # Convert to NP formatted points afterward
             # TO-DO
