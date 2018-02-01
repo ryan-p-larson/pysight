@@ -18,21 +18,13 @@ class CameraTestCase(unittest.TestCase):
 		"""Function that creates a Camera object for oue tests."""
 		self.webcam = pysight.Camera()
 
-
-	def test_does_camera_open_good(self):
-		"""Tests if Camera() can open a good webcam. This will open the default 
-		webcam: /dev/video0. 
-		REQUIRES A WEBCAM TO BE CONNECTED TO PASS!
-		"""
-		self.assertTrue(self.webcam.isOpened())
-
 	
 	def test_does_camera_capture(self):
 		"""Tests if our OpenCV camera class can take a photo."""
 
 		# Grab a single frame from our webcam
 		frame = self.webcam.capture()
-		self.assertTrue(frame != None)
+		self.assertIsNotNone(frame)
 
 
 	def test_can_camera_capture_mult(self):
