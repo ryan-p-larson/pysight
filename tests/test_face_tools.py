@@ -9,6 +9,7 @@ Tests...
 
 import unittest
 import pysight
+from cv2 import imread
 
 ## FACE --------------------------------------------------------------------
 
@@ -45,7 +46,7 @@ class FaceToolsTestCase(unittest.TestCase):
 		in a known good photo."""
 
 		# Path to an image with a clearly represented face.
-		img_good_path = '...'
+		img_good_path = imread('tests/test_imgs/webcam-single.jpg')
 
 		# Run the facial detection classifier.
 		face_in_img = self.face_tools.find_faces(img_good_path)
@@ -59,7 +60,7 @@ class FaceToolsTestCase(unittest.TestCase):
 		in a known good photo."""
 
 		# Path to an image with a clearly represented face.
-		img_good_path = '...'
+		img_good_path = imread('tests/test_imgs/webcam-multiple2.jpg')
 
 		# Run the facial detection classifier.
 		faces_in_img = self.face_tools.find_faces(img_good_path, multi=True)
@@ -73,36 +74,41 @@ class FaceToolsTestCase(unittest.TestCase):
 		an image with no faces."""
 
 		# Path to an image with a clearly represented face.
-		img_bad_path = '...'
+		img_bad_path = imread('tests/test_imgs/webcam-bad.jpg')
 
 		# Run the facial detection classifier.
 		faces_in_img = self.face_tools.find_faces(img_bad_path)
 
 		# Run test
-		self.assertTrue(faces_in_img == [])
+		#self.assertTrue(faces_in_img == None)
+		self.assertIsNotNone(faces_in_img)
 
 
 	def test_ft_eyes_clf_good(self):
 		"""Tests if our FaceTools object can detect eyes in a known good image."""
-		img_path = '...'
+		img_path = imread('tests/test_imgs/webcam-single.jpg')
+		img_processed = pysight.Camera().process(img_path)
+
+		# TO-DO: Add face rect bound
+		# face_in_img = self.face_tools.find_faces(img_processed)
 
 		# Run eyes classifier.
-		eyes_in_img = self.face_tools.find_eyes(img_path)
+		eyes_in_img = self.face_tools.find_eyes(img_processed)
 
 		# Test!
-		self.assertTrue(eyes_in_img != [])
+		self.assertNotEqual(eyes_in_img, ())
 
 
 	def test_ft_eyes_clf_bad(self):
 		"""Tests if our FaceTools object can gracefully (not) detect eyes in 
 		a known bad image."""
-		img_path = '...'
+		img_path = imread('tests/test_imgs/webcam-bad-eyes.jpg')
 
 		# Run eyes classifier.
 		eyes_in_img = self.face_tools.find_eyes(img_path)
 
 		# Test!
-		self.assertTrue(eyes_in_img == [])
+		self.assertEqual(eyes_in_img, ())
 
 
 	def test_ft_pupils_good(self):
@@ -120,13 +126,35 @@ class FaceToolsTestCase(unittest.TestCase):
 	def test_ft_dlib_clf_good(self):
 		"""Test if our Dlib shape predictor can find 68 landmarks in 
 		a known good facial picture."""
-		pass
+
+		# Path to an image with a clearly represented face.
+		img_good_path = imread('tests/test_imgs/webcam-single.jpg')
+
+		# First find facial bounding box
+		face_rect = self.face_tools.find_faces(img_good_path)
+
+		# Find landmarks on face
+		landmarks = self.face_tools.find_landmarks(img_good_path, face_rect)
+
+		# Test
+		self.assertNotEqual(landmarks, [])
 
 
 	def test_ft_dlib_clf_bad(self):
 		"""Tests if our Dlib shape predictor can gracefully process landmarks
 		from a known bad image."""
-		pass
+		
+		# Path to an image with a clearly represented face.
+		img_good_path = imread('tests/test_imgs/webcam-bad-eyes.jpg')
+
+		# First find facial bounding box
+		face_rect = self.face_tools.find_faces(img_good_path)
+
+		# Find landmarks on face
+		landmarks = self.face_tools.find_landmarks(img_good_path, face_rect)
+
+		# Test
+		self.assertEqual(landmarks, [])
 
 
 if __name__ == '__main__':
