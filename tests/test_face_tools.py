@@ -46,7 +46,7 @@ class FaceToolsTestCase(unittest.TestCase):
 		in a known good photo."""
 
 		# Path to an image with a clearly represented face.
-		img_good_path = imread('tests/test_imgs/webcam-single.jpg')
+		img_good_path = imread('tests/test_imgs/webcam-single-00.jpg')
 
 		# Run the facial detection classifier.
 		face_in_img = self.face_tools.find_faces(img_good_path)
@@ -85,7 +85,7 @@ class FaceToolsTestCase(unittest.TestCase):
 
 	def test_ft_eyes_clf_good(self):
 		"""Tests if our FaceTools object can detect eyes in a known good image."""
-		img_path = imread('tests/test_imgs/webcam-single.jpg')
+		img_path = imread('tests/test_imgs/webcam-single-00.jpg')
 		img_processed = pysight.Camera().process(img_path)
 
 		# TO-DO: Add face rect bound
@@ -139,7 +139,7 @@ class FaceToolsTestCase(unittest.TestCase):
 		a known good facial picture."""
 
 		# Path to an image with a clearly represented face.
-		img_good_path = imread('tests/test_imgs/webcam-single.jpg')
+		img_good_path = imread('tests/test_imgs/webcam-single-00.jpg')
 
 		# First find facial bounding box
 		face_rect = self.face_tools.find_faces(img_good_path)
