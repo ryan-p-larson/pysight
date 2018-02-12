@@ -107,31 +107,7 @@ class FaceToolsTestCase(unittest.TestCase):
 		eyes_in_img = self.face_tools.find_eyes(img_path)
 
 		# Test!
-		self.assertEqual(eyes_in_img, ())
-
-
-	def test_ft_pupils_good(self):
-		"""Test to determine if out FaceTools object can detect pupils
-		in a known good photo."""
-
-		# Path to an image with a clearly represented eye and pupil.
-		img_good = imread('tests/test_imgs/eye-single.jpg')
-		
-		# Image MUST be processed into gray for Hough Circles to work
-		img_proc = pysight.Camera().process(img_good)
-
-		# Find the pupils
-		pupils = self.face_tools.find_pupils(img_proc)
-
-		# Test!
-		self.assertNotEqual(pupils, ())
-
-
-	def test_ft_pupils_bad(self):
-		"""Test to determine if our find_pupils method can gracefully process
-		pupils from a known bad image."""
-		
-		pass
+		self.assertEqual(eyes_in_img, ())-
 
 
 	def test_ft_dlib_clf_good(self):

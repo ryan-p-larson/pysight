@@ -119,28 +119,6 @@ class FaceTools(object):
             return []
 
 
-    def find_pupils(self, img, eyes_rect=[]):
-        """
-        Function to find the pupil(s) in an image.
-        Args:
-            img (numpy.ndarray): Image to process.
-            eyes_rect (???): Bounding box of eyes.
-        Returns:
-            pupil: Hough Circle information for pupil in eye.
-        """
-        assert img is not None
-        try:
-            # Grab pupil circle information via Hough Circles method.
-            # TO-DO: Better param information
-            circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 20,
-                            param1=50, param2=30, minRadius=0, maxRadius=80)
-
-            return circles
-        except Exception as e:
-            print ("Warning: {}".format(e))
-            return []
-
-
     def find_landmarks(self, img, face_rect):
         """
         Function to identify 68 facial landmarks from a given face img.
