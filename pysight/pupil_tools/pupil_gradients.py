@@ -19,7 +19,7 @@ class PupilGradients(object):
                                         grad_x_val, grad_y_val, indicies_grid, shape):
         """Algorithm from "ACCURATE EYE CENTRE LOCALISATION BY MEANS OF GRADIENTS 
         - Fabian Timm and Erhardt Barth"""
-        #
+        # Create distance matrices
         dx = np.ones(shape) * grad_x0 - indicies_grid[1]
         dy = np.ones(shape) * grad_y0 - indicies_grid[0]
         magnitudes = cv.magnitude(dx + 0.0001, dy)          # 0.0001 is a hack to offset against division by 0
@@ -79,12 +79,13 @@ class PupilGradients(object):
 
 
     def find_pupil(self, eye_img_bgr):
-        """ Estimates the centre of the pupil using image gradients.
+        """Estimates the centre of the pupil using image gradients.
         """
 
 
         #eye_img_r = cv.split(eye_img_bgr)[2]   # Extract red channel only
-        eye_img_r = self.__preprocess_eye_region(eye_img_bgr.copy())
+        #eye_img_r = self.__preprocess_eye_region(eye_img_bgr.copy())
+        eye_img_r = cv.cvtColor(eye_img_bgr, cv.COLOR_BGR2GRAY)
         
         # Scale to small image for faster computation
         scale = self.fast_width / eye_img_bgr.shape[0]

@@ -7,7 +7,7 @@ import numpy as np
 
 
 class PupilIsophotes(object):
-    def __init__(self, fast_width=50.0, 
+    def __init__(self, fast_width=80.0, 
                 weight_ratio_edge=1, 
                 weight_ratio_darkness=0.0):
         """Find image gradients using eye isophotes."""
@@ -88,7 +88,7 @@ class PupilIsophotes(object):
         
         return accumulator
 
-    def find_pupil(eye_img_bgr):
+    def find_pupil(self, eye_img_bgr):
     
         eye_img_r = cv.cvtColor(eye_img_bgr, cv.COLOR_BGR2GRAY)
         
@@ -98,8 +98,8 @@ class PupilIsophotes(object):
         eye_img_small = cv.resize(eye_img_r, small_size)
         eye_img_small = cv.GaussianBlur(eye_img_small, (3, 3), 0)
         
-        center_map = get_center_map(eye_img_small)
-        
+        center_map = self.get_center_map(eye_img_small)
+
         max_val_index = np.argmax(center_map)
         pupil_y0, pupil_x0 = max_val_index // center_map.shape[1], max_val_index % center_map.shape[1]
         
