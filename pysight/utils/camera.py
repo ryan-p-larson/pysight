@@ -12,6 +12,7 @@ class Camera(object):
 		self.__src    = src
 		self.__frames = []
 
+
 	def capture(self):
 		"""Function to start, capture, and shutdown our camera.
 		Returns:
@@ -25,6 +26,7 @@ class Camera(object):
 		
 		return frame if grabbed else None
 
+
 	def process(self, img, downsize=5):
 		"""Function to process an raw RGB image into an B&W, equalized img.
 		Args:
@@ -37,9 +39,9 @@ class Camera(object):
 		# we need to keep in mind aspect ratio so the image doesn't look distorted.
 		height, width = img.shape[:2]
 		down_height, down_width = int(height / downsize), int(width/ downsize)
-		dim = (down_width, down_height) if (downsize != 1) else (width, height)
+		dim = (down_width, down_height)
  
-		img_scaled		= resize(img, dim, interpolation=INTER_AREA)# Resize with our calc'd
+		img_scaled		= resize(img, dim, interpolation=INTER_AREA)  if (downsize != 1) else img
 		img_gray 		= cvtColor(img_scaled, COLOR_BGR2GRAY) 		# Convert to grayscale.
 		img_equalized 	= equalizeHist(img_gray)					# Equalize the values
 		return img_equalized
