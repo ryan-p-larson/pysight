@@ -107,7 +107,7 @@ class FaceToolsTestCase(unittest.TestCase):
 		eyes_in_img = self.face_tools.find_eyes(img_path)
 
 		# Test!
-		self.assertEqual(eyes_in_img, ())-
+		self.assertEqual(eyes_in_img, ())
 
 
 	def test_ft_dlib_clf_good(self):
@@ -124,7 +124,7 @@ class FaceToolsTestCase(unittest.TestCase):
 		landmarks = self.face_tools.find_landmarks(img_good_path, face_rect)
 
 		# Test
-		self.assertNotEqual(landmarks, [])
+		self.assertNotEqual(landmarks, ())
 
 
 	def test_ft_dlib_clf_bad(self):
@@ -141,7 +141,7 @@ class FaceToolsTestCase(unittest.TestCase):
 		landmarks = self.face_tools.find_landmarks(img_good_path, face_rect)
 
 		# Test
-		self.assertEqual(landmarks, [])
+		self.assertEqual(landmarks, ())
 
 
 if __name__ == '__main__':

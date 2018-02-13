@@ -92,7 +92,7 @@ class FaceTools(object):
                 )
         except Exception as e:
             print ("Warning: {}".format(e))
-            return []
+            return ()
 
 
     def find_eyes(self, img, face_rect=[]):
@@ -116,7 +116,7 @@ class FaceTools(object):
                 )
         except Exception as e:
             print ("Warning: {}".format(e))
-            return []
+            return ()
 
 
     def find_landmarks(self, img, face_rect):
