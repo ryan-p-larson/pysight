@@ -10,3 +10,5 @@ from pysight import utils
 from pysight.utils.camera import Camera
 from pysight.face_tools import FaceTools
 from pysight.pupil_tools import PupilTools
+
+from pysight.pose_tools import PoseTools
