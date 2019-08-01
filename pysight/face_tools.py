@@ -1,7 +1,7 @@
 """
 PySight - Face
 
-Module implementing facial alignment for computer vision. Uses Haar Cascades 
+Module implementing facial alignment for computer vision. Uses Haar Cascades
 to find faces in photos (less accurate but quicker than Dlib's histogram of
 gradients), and uses Dlibs AAM.
 """
@@ -83,10 +83,10 @@ class FaceTools(object):
         assert img is not None
         try:
             return self.face_clf.detectMultiScale(
-                    image=img, 
-                    #scaleFactor, 
-                    minNeighbors=5, 
-                    flags=cv2.CASCADE_SCALE_IMAGE, 
+                    image=img,
+                    #scaleFactor,
+                    minNeighbors=5,
+                    flags=cv2.CASCADE_SCALE_IMAGE,
                     minSize=(30, 30)
                     #maxSize
                 )
@@ -107,11 +107,11 @@ class FaceTools(object):
         assert img is not None
         try:
             return self.eyes_clf.detectMultiScale(
-                    image=img, 
-                    scaleFactor=1.03, 
-                    minNeighbors=5, 
-                    flags=0, 
-                    minSize=(30, 30) 
+                    image=img,
+                    scaleFactor=1.03,
+                    minNeighbors=5,
+                    flags=0,
+                    minSize=(30, 30)
                     #maxSize
                 )
         except Exception as e:
@@ -131,14 +131,14 @@ class FaceTools(object):
         assert img is not None
         # If we don't have a bounding box then we're SOL
         if len(face_rect) < 1: return []
+        else: face_rect = face_rect[0]
 
         # Convert face_rect list to Dlib rectangle for dlib.shape_predictor().
         dlib_rect = dlib.rectangle(
-                int(face_rect[0][0]),
-                int(face_rect[0][1]),
-                int(face_rect[0][2]),
-                int(face_rect[0][3])
-            )
+            int(face_rect[0]),
+            int(face_rect[1]),
+            int(face_rect[0]) + int(face_rect[2]),
+            int(face_rect[1]) + int(face_rect[3]))
 
         try:
             landmarks_dlib = self.dlib_clf(img, dlib_rect)

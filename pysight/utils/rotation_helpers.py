@@ -11,7 +11,7 @@ def Euler2RotationMatrix(eulerAngles):
 	"""
 	Using the XYZ convention R = Rx * Ry * Rz, left-handed positive sign.
 	Args:
-		eulerAngles (Vec3d): 
+		eulerAngles (Vec3d):
 	Returns:
 		rotation_matrix (Mat):
 	"""
@@ -27,15 +27,15 @@ def Euler2RotationMatrix(eulerAngles):
 	#rotation_matrix = [[None for j in range(3)] for i in range(3)]
 	rotation_matrix = empty((3, 3))
 
-	rotation_matrix[0][0] = c2 * c3
+	rotation_matrix[0][0] =  c2 * c3
 	rotation_matrix[0][1] = -c2 * s3
-	rotation_matrix[0][2] = s2
-	rotation_matrix[1][0] = c1 * s3 + c3 * s1 * s2
-	rotation_matrix[1][1] = c1 * c3 - s1 * s2 * s3
+	rotation_matrix[0][2] =  s2
+	rotation_matrix[1][0] =  c1 * s3 + c3 * s1 * s2
+	rotation_matrix[1][1] =  c1 * c3 - s1 * s2 * s3
 	rotation_matrix[1][2] = -c2 * s1
-	rotation_matrix[2][0] = s1 * s3 - c1 * c3 * s2
-	rotation_matrix[2][1] = c3 * s1 + c1 * s2 * s3
-	rotation_matrix[2][2] = c1 * c2
+	rotation_matrix[2][0] =  s1 * s3 - c1 * c3 * s2
+	rotation_matrix[2][1] =  c3 * s1 + c1 * s2 * s3
+	rotation_matrix[2][2] =  c1 * c2
 
 	return rotation_matrix
 
